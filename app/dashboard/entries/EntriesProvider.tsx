@@ -1,7 +1,6 @@
 'use client'
 
 import { Entry, EntryState, EntryStatus } from "../interface/entry";
-import { v4 as uuidv4 } from 'uuid';
 import { EntriesContext } from "./EntriesContext";
 import { useReducer } from "react";
 import { EntriesReducer } from "./EntriesReducer";
@@ -14,7 +13,7 @@ export interface EntriesState {
 const ENTRIES_INITIAL_STATE: EntriesState = {
     entries: [
         {
-            _id: uuidv4(),
+            _id: '1',
             cant: 10,
             description: 'Laptop',
             status: 'Bien',
@@ -22,7 +21,7 @@ const ENTRIES_INITIAL_STATE: EntriesState = {
             state: 'Tecnológico'
         },
         {
-            _id: uuidv4(),
+            _id: '2',
             cant: 20,
             description: 'Sofa',
             status: 'Regular',
@@ -30,7 +29,7 @@ const ENTRIES_INITIAL_STATE: EntriesState = {
             state: 'Mobiliario'
         },
         {
-            _id: uuidv4(),
+            _id: '3',
             cant: 40,
             description: 'Libreta',
             status: 'Mal',
@@ -38,7 +37,7 @@ const ENTRIES_INITIAL_STATE: EntriesState = {
             state: 'Útil'
         },
         {
-            _id: uuidv4(),
+            _id: '4',
             cant: 30,
             description: 'Torre',
             status: 'Regular',
@@ -46,7 +45,7 @@ const ENTRIES_INITIAL_STATE: EntriesState = {
             state: 'Tecnológico'
         },
         {
-            _id: uuidv4(),
+            _id: '5',
             cant: 60,
             description: 'Cama',
             status: 'Mal',
@@ -54,7 +53,7 @@ const ENTRIES_INITIAL_STATE: EntriesState = {
             state: 'Mobiliario'
         },
         {
-            _id: uuidv4(),
+            _id: '6',
             cant: 100,
             description: 'Borrador',
             status: 'Bien',
@@ -72,7 +71,7 @@ export default function EntriesProvider({ children }: Readonly<{
 
     const addNewEntry = (description: string, state: EntryState, cantidad: number) => {
         const newEntry: Entry = {
-            _id: uuidv4(),
+            _id: '7',
             cant: cantidad,
             description,
             createAt: Date.now(),
