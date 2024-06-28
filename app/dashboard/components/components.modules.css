@@ -1,0 +1,25 @@
+.input{
+    border-width: 2px;
+    border-color: black;
+}
+.formulario{
+    text-align: center;
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    max-width: 100%;
+    margin-right: 1rem;
+}
+.Button{
+    padding: 3px 1rem ;
+    background-color:rgba(146, 146, 146, 0.37);
+    border-radius: 2rem;
+    box-sizing: border-box;
+    width: 100%;
+}
+.input{
+    border-radius: 10px;
+    border-width: 2px;
+    box-sizing: border-box;
+    background-color: white;
+    padding: 2px;
+}

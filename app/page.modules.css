@@ -1,0 +1,54 @@
+
+
+.left-section{
+text-align: center;
+width: 30%;
+background-color:rgba(146, 146, 146, 0.37);
+border-radius: 2rem;
+box-sizing: border-box;
+}
+.left-section-logo{
+    border-radius: 2rem 2rem 0 0;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-around;
+    text-transform: uppercase;
+}
+.right-section{
+    width: 70%;
+    height: 100%;
+    text-align: -webkit-center;
+    margin-right: 0.5rem;
+}
+.right-section-name{
+    border-radius: 2rem;
+    margin: 0.5rem 0 0 0.5rem;
+}
+.button{
+    background-color:rgba(14, 146, 235, 0.822);
+    border-radius: 5rem;
+    border-width: 1px;
+   color: black;
+}
+:hover.button{
+    background-color: #2275CD;
+}
+.imageP{
+    min-width: 768px;
+    background-image: url(../public/63219533_l_normal_none.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.imageL{
+    min-width: 768px;
+    background-image: url(../public/gestion-de-activos-fijos-1.png);
+    background-size: contain;
+    background-repeat: repeat;
+}
+.imageC{
+    min-width: 768px;
+    background-image: url(../public/gestion-de-activos-fijos-1.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-x: center;
+}
