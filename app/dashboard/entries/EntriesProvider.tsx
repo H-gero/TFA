@@ -7,6 +7,7 @@ import { EntriesReducer } from "./EntriesReducer";
 import { getEntry } from "../actions/services/getEntry";
 import { parseEntry } from "../utils/parseEntry";
 import { changeEntry } from "../actions/services/changeEntry";
+import { dropEntry } from "../actions/services/dropEntry";
 
 
 export interface EntriesState {
@@ -17,34 +18,37 @@ export default function EntriesProvider({ children }: Readonly<{
     children: React.ReactNode;
 }>) {
     const [state, dispatch] = useReducer(EntriesReducer, { entries: [] }); // Estado inicial vacío o mínimo necesario
+    
 
-    useEffect(() => {
-        getEntry('api/entries/')
-            .then((response) => {
-                const data = response;
-                const parsedData = parseEntry(data); 
-                dispatch({ type: '[Entry] -initial-entries', payload: parsedData.entries });
-            })
-            .catch(error => {
-                console.error('Error al cargar las entradas:', error);
-            });
-    }, []);
+    const getEntries = async () => {
 
-     const addNewEntry = async (description: string, state: EntryState, cantidad: number) => {
-       
+        const fetchData = async () => {
+            const response = await getEntry('api/entries/');
+            const data = response;
+            const parsedData = parseEntry(data);
+            dispatch({ type: '[Entry] -initial-entries', payload: parsedData.entries });
+        };
+        fetchData();
+    }
+    useEffect(() => { getEntries() }, []);
+
+
+    const addNewEntry = async (description: string, state: EntryState, cantidad: number) => {
+
         const data = await changeEntry('api/entries/', { cant: cantidad, description, state: state })
         const parsedData = parseEntry([data])
         dispatch({ type: '[Entry] -Add-Entry', payload: parsedData.entries[0] })
 
     }
 
-    const updateEntry = async(entry: Entry, cant: number) => {
-        await changeEntry(`api/entries/${entry._id}/`, { cant: cant, status: entry.status },"PATCH")
+    const updateEntry = async (entry: Entry, cant: number) => {
+        await changeEntry(`api/entries/${entry._id}/`, { cant: cant, status: entry.status }, "PATCH")
         dispatch({ type: '[Entry] -Entry-Update', payload: entry, cantidad: cant })
-        
+
     }
 
-    const deleteEntry = (entry: Entry, index: number) => {
+    const deleteEntry = async (entry: Entry, index: number) => {
+        await dropEntry(`api/entries/${entry._id}/`)
         dispatch({ type: '[Entry] -Entry-Delete', payload: entry, indice: index })
     }
     const SearchUpdate = (cad: string, entries: Entry[]) => {
@@ -58,6 +62,7 @@ export default function EntriesProvider({ children }: Readonly<{
                 updateEntry,
                 deleteEntry,
                 SearchUpdate,
+                getEntries,
             }
         }>
             {children}
