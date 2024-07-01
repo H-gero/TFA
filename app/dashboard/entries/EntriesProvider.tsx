@@ -13,10 +13,6 @@ export interface EntriesState {
     entries: Entry[];
 }
 
-
-
-
-
 export default function EntriesProvider({ children }: Readonly<{
     children: React.ReactNode;
 }>) {
@@ -26,7 +22,7 @@ export default function EntriesProvider({ children }: Readonly<{
         getEntry('api/entries/')
             .then((response) => {
                 const data = response;
-                const parsedData = parseEntry(data); // Asume que parseEntry devuelve un objeto con la estructura correcta para tu estado
+                const parsedData = parseEntry(data); 
                 dispatch({ type: '[Entry] -initial-entries', payload: parsedData.entries });
             })
             .catch(error => {
@@ -42,7 +38,8 @@ export default function EntriesProvider({ children }: Readonly<{
 
     }
 
-    const updateEntry = (entry: Entry, cant: number) => {
+    const updateEntry = async(entry: Entry, cant: number) => {
+        await changeEntry(`api/entries/${entry._id}/`, { cant: cant, status: entry.status },"PATCH")
         dispatch({ type: '[Entry] -Entry-Update', payload: entry, cantidad: cant })
         
     }
