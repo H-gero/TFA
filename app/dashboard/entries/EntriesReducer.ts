@@ -10,10 +10,14 @@ type EntriesActionType =
     | { type: '[Entry] -Entry-Update', payload: Entry, cantidad: number }
     | { type: '[Entry] -Entry-Delete', payload: Entry, indice: number }
     | { type: '[Entry] -Search-Entry-Update', payload: Entry[], cadena: string }
+    | { type: '[Entry] -initial-entries', payload: Entry[] }
 
 
 export function EntriesReducer(state: EntriesState, action: EntriesActionType) {
     switch (action.type) {
+        case '[Entry] -initial-entries':
+        return { entries: action.payload }; // Asume que action.payload es el nuevo estado de entradas
+  
         case '[Entry] -Add-Entry':
             return {
                 ...state,
