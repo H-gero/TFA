@@ -2,12 +2,17 @@
 import { apiUrl } from "./const";
 
 
-export async function dropEntry(url: string) {
+export async function dropEntry(url: string,token: string) {
 
     try {
-        const response = await fetch(`${apiUrl + url}`, {
-            method: 'DELETE',
-        });
+        const options = {
+            method: 'DELETE', // Método de la solicitud
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Token ${token}`, //token de autenticación
+            }
+        };
+        const response = await fetch(`${apiUrl + url}`, options);
 
         if (!response.ok) {
             throw new Error(`Error ${response.status}: ${response.statusText}`);

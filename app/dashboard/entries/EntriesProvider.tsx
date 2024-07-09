@@ -8,6 +8,7 @@ import { getEntry } from "../actions/services/getEntry";
 import { parseEntry } from "../utils/parseEntry";
 import { changeEntry } from "../actions/services/changeEntry";
 import { dropEntry } from "../actions/services/dropEntry";
+import { notFound } from "next/navigation";
 
 
 export interface EntriesState {
@@ -19,11 +20,14 @@ export default function EntriesProvider({ children }: Readonly<{
 }>) {
     const [state, dispatch] = useReducer(EntriesReducer, { entries: [] }); // Estado inicial vacío o mínimo necesario
     
-
+    const token = localStorage.getItem('token')
+    if (!token) {
+        notFound()
+    }
     const getEntries = async () => {
 
         const fetchData = async () => {
-            const response = await getEntry('api/entries/');
+            const response = await getEntry('api/entries/',token)
             const data = response;
             const parsedData = parseEntry(data);
             dispatch({ type: '[Entry] -initial-entries', payload: parsedData.entries });
@@ -35,20 +39,20 @@ export default function EntriesProvider({ children }: Readonly<{
 
     const addNewEntry = async (description: string, state: EntryState, cantidad: number) => {
 
-        const data = await changeEntry('api/entries/', { cant: cantidad, description, state: state })
+        const data = await changeEntry('api/entries/', { cant: cantidad, description, state: state },'POST',token)
         const parsedData = parseEntry([data])
         dispatch({ type: '[Entry] -Add-Entry', payload: parsedData.entries[0] })
 
     }
 
     const updateEntry = async (entry: Entry, cant: number) => {
-        await changeEntry(`api/entries/${entry._id}/`, { cant: cant, status: entry.status }, "PATCH")
+        await changeEntry(`api/entries/${entry._id}/`, { cant: cant, status: entry.status }, "PATCH",token)
         dispatch({ type: '[Entry] -Entry-Update', payload: entry, cantidad: cant })
 
     }
 
     const deleteEntry = async (entry: Entry, index: number) => {
-        await dropEntry(`api/entries/${entry._id}/`)
+        await dropEntry(`api/entries/${entry._id}/`,token)
         dispatch({ type: '[Entry] -Entry-Delete', payload: entry, indice: index })
     }
     const SearchUpdate = (cad: string, entries: Entry[]) => {

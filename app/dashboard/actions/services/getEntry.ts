@@ -3,9 +3,16 @@ import { apiUrl } from "./const";
 
 
 // Función asíncrona para realizar la solicitud GET
-export async function getEntry(url: string) {
+export async function getEntry(url: string,token: string) {
     try {
-        const response = await fetch(apiUrl + url);
+        const options = {
+            method: 'GET', // Método de la solicitud
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Token ${token}`, //token de autenticación
+            }
+        };
+        const response = await fetch(apiUrl + url, options);
 
 
         // Verifica si la respuesta fue exitosa (status 200-299)

@@ -1,14 +1,14 @@
 'use client'
 
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
-import LoginIcon from '@mui/icons-material/Login';
+
 import { useState } from "react";
 import './components.modules.css'
 import { Button, Card, CardActionArea, CardActions, CardContent, TextField, Typography } from "@mui/material";
 import { Image } from "@nextui-org/react";
-import axios from 'axios';
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
+import { login } from "../actions/services/login";
 
 
 
@@ -20,8 +20,10 @@ export function Login() {
         email: '',
         password: ''
     });
+    const [error, setError] = useState(false);
 
     const { email, password } = credentials;
+
 
     const [touched, setTouched] = useState(false);
 
@@ -49,9 +51,14 @@ export function Login() {
 
     const handleSubmit = async (e: Params) => {
         e.preventDefault();
-        console.log(credentials);
-        // const response = await axios.post('/api/auth/login', credentials)
-        // console.log(response);
+        const response = await login("auth/login/", credentials)
+        
+        if (response.status >= 400 ) {
+            setError(true)
+            return
+        }
+        localStorage.setItem('token', response.json.token)
+        
     }
 
     return (
@@ -103,7 +110,7 @@ export function Login() {
                 <button
                 className="button h-10 w-full transition-all duration-300"
                 onClick={() => {
-                    if(email === 'user@gmail.com' && password === 'user') {
+                    if(error === false){
                         Swal.fire({
                             title: "Success",
                             icon: "success",
@@ -112,7 +119,7 @@ export function Login() {
                           });
                         setTimeout(() => {
                             router.push('/dashboard')
-                        }, 2000)
+                        }, 1000)
                     }else{
                         Swal.fire({
                             title: "Error",
