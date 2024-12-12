@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { Entry, EntryState, EntryStatus } from "../interface/entry";
+import { Entry, EntryState } from "../interface/entry";
 
 
 export interface ContextProps {
@@ -9,6 +9,7 @@ export interface ContextProps {
     updateEntry: (entry: Entry, cant: number) => void
     deleteEntry: (entry: Entry, index: number) => void
     SearchUpdate: (cad: string, entries: Entry[]) => void
+    getEntries: () => void
 }
 
 export const EntriesContext = createContext({} as ContextProps);

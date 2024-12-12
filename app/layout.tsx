@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Link } from "@nextui-org/react";
 import './page.modules.css'
-import EntriesProvider from "./dashboard/entries/EntriesProvider";
 import UIProvider from "./dashboard/ui/UIProvider";
 import { Nav } from "./dashboard/components/Nav";
 import { Providers } from "./providers";
@@ -21,7 +20,6 @@ export default function RootLayout({ children }: Readonly<{
   return (
     <html lang="en" className="md:w-full w-[100vh] md:h-full h-[100vh]">
       <body>
-        <EntriesProvider>
           <UIProvider>
             <Providers>
               <main className="fadeIn">
@@ -29,7 +27,6 @@ export default function RootLayout({ children }: Readonly<{
               </main>
             </Providers>
           </UIProvider>
-        </EntriesProvider>
       </body>
     </html>
   );

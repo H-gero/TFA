@@ -10,34 +10,35 @@ import { EntriesContext } from '../entries/EntriesContext';
 
 
 
+
 export default function Search({ placeholder }: { placeholder: string }) {
 
-  const {SearchUpdate, entries} = useContext(EntriesContext)
+  const { SearchUpdate, entries, getEntries } = useContext(EntriesContext)
   //Search
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { replace} = useRouter();
-  
-  
+  const { replace } = useRouter();
+
+
   const handleSearch = useDebouncedCallback((term: string) => {
-    const params = new URLSearchParams(searchParams)  
-    if(term){
-      params.set('query',term)
-    }else{
-      params.delete('query')
+    const params = new URLSearchParams(searchParams)
+    if (!term) {
+      params.delete('query');
+      getEntries(); 
+    } else {
+      params.set('query', term);
+      SearchUpdate(term, entries);
     }
-    replace(`${pathname}?${params.toString()}`)
-    SearchUpdate(term.valueOf(), entries)
-    
-    
-    }, 300)
-  
+    replace(`${pathname}?${params.toString()}`);
+
+  }, 300)
+
 
   // useEffect(() => {
   //   setState({text: ''});
-    
+
   // }, [pathname]);
-    
+
   // useEffect(() => {
   //    replace(`${actual}`);
   // }, [window.onbeforeunload])
@@ -53,7 +54,7 @@ export default function Search({ placeholder }: { placeholder: string }) {
       <input
         name='text'
         type='search'
-        onChange={(e) => {handleSearch(e.target.value)}}
+        onChange={(e) => { handleSearch(e.target.value) }}
         className=" block w-full rounded-md border 
             border-gray-200 py-[9px] pl-10 text-sm outline-2 
             placeholder:text-gray-500 opacity-50 input "
